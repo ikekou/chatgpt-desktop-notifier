@@ -42,14 +42,29 @@ function testSound() {
 
 // デスクトップ通知をテストする関数
 function testNotification() {
+  console.log('🔔 デスクトップ通知テストを開始します');
+  
   if (!desktopEnabledCheckbox.checked) {
+    console.log('⚠️ デスクトップ通知が無効になっています');
     showStatus('⚠️ デスクトップ通知が無効になっています');
     return;
   }
-  chrome.runtime.sendMessage({
-    type: 'SHOW_NOTIFICATION',
-    text: 'これはテスト通知です。ChatGPT Desktop Notifierは正常に動作しています。'
-  });
+
+  console.log('📤 background.tsにメッセージを送信します');
+  chrome.runtime.sendMessage(
+    {
+      type: 'SHOW_NOTIFICATION',
+      text: 'これはテスト通知です。ChatGPT Desktop Notifierは正常に動作しています。'
+    },
+    (response) => {
+      console.log('📥 background.tsからの応答:', response);
+      if (chrome.runtime.lastError) {
+        console.error('❌ エラーが発生しました:', chrome.runtime.lastError);
+        showStatus('⚠️ 通知の送信に失敗しました');
+      }
+    }
+  );
+  
   showStatus('💬 デスクトップ通知をテストしました');
 }
 
