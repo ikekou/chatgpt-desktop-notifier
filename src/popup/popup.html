@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGPT Desktop Notifier Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>通知設定</h1>
+    <div class="setting-item">
+      <label>
+        <input type="checkbox" id="soundEnabled" checked>
+        音声通知
+      </label>
+    </div>
+    <div class="setting-item">
+      <label>
+        <input type="checkbox" id="desktopEnabled" checked>
+        デスクトップ通知
+      </label>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
