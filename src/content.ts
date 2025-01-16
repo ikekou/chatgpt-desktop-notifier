@@ -46,6 +46,7 @@ function playNotificationSound() {
 
 // ChatGPTの応答を監視する関数
 function observeChatGPTResponse() {
+  console.log('🔍 ChatGPTの応答を監視します');
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -103,3 +104,5 @@ if (document.readyState === 'loading') {
 } else {
   observeChatGPTResponse();
 }
+
+console.log('🚀 ChatGPTの応答監視拡張機能が読み込まれました');
