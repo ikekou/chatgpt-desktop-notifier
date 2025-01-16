@@ -1,3 +1,5 @@
+import { playNotificationSound } from './utils/sound';
+
 interface NotificationSettings {
   soundEnabled: boolean;
   desktopEnabled: boolean;
@@ -27,26 +29,8 @@ chrome.storage.onChanged.addListener((changes) => {
   }
 });
 
-// 音声通知を生成する関数
-function playNotificationSound() {
-  const audioContext = new AudioContext();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4音
-  gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + 0.2);
-}
-
 // ChatGPTの応答を監視する関数
 function observeChatGPTResponse() {
-  console.log('🔍 ChatGPTの応答を監視します');
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -104,5 +88,3 @@ if (document.readyState === 'loading') {
 } else {
   observeChatGPTResponse();
 }
-
-console.log('🚀 ChatGPTの応答監視拡張機能が読み込まれました');

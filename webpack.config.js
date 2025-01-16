@@ -34,6 +34,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    alias: {
+      '@utils': path.resolve(__dirname, 'src/utils/'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
