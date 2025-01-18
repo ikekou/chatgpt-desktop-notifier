@@ -144,11 +144,11 @@ import { playNotificationSound } from './utils/sound';
       seconds: Math.round(timeSinceLastResponse / 1000)
     });
 
-    // 3秒以上メッセージの更新がなければ完了とみなす
-    if (timeSinceLastResponse > 3000) {
+    // 2秒以上メッセージの更新がなければ完了とみなす
+    if (timeSinceLastResponse > 1000) {
       // 完了
       isGenerating = false;
-      console.log('✅ 応答完了を検知');
+      console.log(`✅ ${timeSinceLastResponse}ms経過した 応答完了を検知`);
 
       // 最新のアシスタントメッセージを取得して通知テキストにする
       const messages = document.querySelectorAll('[data-message-author-role="assistant"]');
