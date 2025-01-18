@@ -201,11 +201,13 @@ interface StorageChanges {
       });
 
       // デスクトップ通知
-      if (settings.desktopEnabled) {
+      if (settings.desktopEnabled && chrome.runtime?.id) {
         debugLog('CheckIfDone', 'Sending desktop notification');
         chrome.runtime.sendMessage({
           type: 'SHOW_NOTIFICATION',
           text: notificationText
+        }).catch(error => {
+          console.warn('Failed to send notification:', error);
         });
       }
 
