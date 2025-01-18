@@ -1,10 +1,10 @@
 // 通知IDを生成する関数
-function generateNotificationId(): string {
+function generateNotificationId() {
   return `chatgpt-notification-${Date.now()}`;
 }
 
 // 通知を表示する関数
-function showNotification(text: string) {
+function showNotification(text) {
   console.log('📣 通知を作成します:', text);
   
   const notificationId = generateNotificationId();
@@ -12,11 +12,10 @@ function showNotification(text: string) {
 
   try {
     chrome.notifications.create(notificationId, {
+      iconUrl: 'icons/icon128.png',
       type: 'basic',
-      iconUrl: chrome.runtime.getURL('icons/icon128.png'),
       title: 'ChatGPT Response',
-      message: text,
-      priority: 2
+      message: text
     }, (createdId) => {
       if (chrome.runtime.lastError) {
         console.error('❌ 通知の作成に失敗しました:', chrome.runtime.lastError);

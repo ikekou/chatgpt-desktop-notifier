@@ -1,12 +1,7 @@
 import { playNotificationSound } from './utils/sound';
 
-interface NotificationSettings {
-  soundEnabled: boolean;
-  desktopEnabled: boolean;
-}
-
 // 設定の初期値
-let settings: NotificationSettings = {
+let settings = {
   soundEnabled: true,
   desktopEnabled: true,
 };

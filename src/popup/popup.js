@@ -1,11 +1,11 @@
 import { playNotificationSound } from '../utils/sound';
 
 // DOM要素の取得
-const soundEnabledCheckbox = document.getElementById('soundEnabled') as HTMLInputElement;
-const desktopEnabledCheckbox = document.getElementById('desktopEnabled') as HTMLInputElement;
-const testSoundButton = document.getElementById('testSound') as HTMLButtonElement;
-const testNotificationButton = document.getElementById('testNotification') as HTMLButtonElement;
-const statusElement = document.getElementById('status') as HTMLDivElement;
+const soundEnabledCheckbox = document.getElementById('soundEnabled');
+const desktopEnabledCheckbox = document.getElementById('desktopEnabled');
+const testSoundButton = document.getElementById('testSound');
+const testNotificationButton = document.getElementById('testNotification');
+const statusElement = document.getElementById('status');
 
 // 設定を保存する関数
 function saveSettings() {
@@ -20,7 +20,7 @@ function saveSettings() {
 }
 
 // ステータスメッセージを表示する関数
-function showStatus(message: string) {
+function showStatus(message) {
   statusElement.textContent = message;
   statusElement.classList.add('show');
 
@@ -50,14 +50,14 @@ function testNotification() {
     return;
   }
 
-  console.log('📤 background.tsにメッセージを送信します');
+  console.log('📤 background.jsにメッセージを送信します');
   chrome.runtime.sendMessage(
     {
       type: 'SHOW_NOTIFICATION',
       text: 'これはテスト通知です。ChatGPT Desktop Notifierは正常に動作しています。'
     },
     (response) => {
-      console.log('📥 background.tsからの応答:', response);
+      console.log('📥 background.jsからの応答:', response);
       if (chrome.runtime.lastError) {
         console.error('❌ エラーが発生しました:', chrome.runtime.lastError);
         showStatus('⚠️ 通知の送信に失敗しました');

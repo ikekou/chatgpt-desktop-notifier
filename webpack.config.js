@@ -11,29 +11,23 @@ async function convertSvgToPng(input, size) {
     .toBuffer();
 }
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = {
-  mode: 'production',
+  mode: isDevelopment ? 'development' : 'production',
+  devtool: isDevelopment ? 'inline-source-map' : false,
   entry: {
-    background: './src/background.ts',
-    content: './src/content.ts',
-    popup: './src/popup/popup.ts',
+    background: './src/background.js',
+    content: './src/content.js',
+    popup: './src/popup/popup.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     clean: true,
   },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.js'],
     alias: {
       '@utils': path.resolve(__dirname, 'src/utils/'),
     },
