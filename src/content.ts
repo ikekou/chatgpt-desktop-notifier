@@ -13,7 +13,7 @@ interface StorageChanges {
 
 (function() {
   // デバッグモード
-  const DEBUG = true;
+  const DEBUG = false;
 
   // 状態管理
   let isGenerating = false;       // ChatGPTが応答生成中かどうか
