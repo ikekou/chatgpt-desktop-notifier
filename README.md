@@ -1,5 +1,7 @@
 # ChatGPT Desktop Notifier
 
+> This project was created to test Roo-Cline, an AI coding assistant.
+
 A Chrome extension that sends desktop notifications when ChatGPT completes its response.
 
 [日本語のREADME](./README.ja.md)

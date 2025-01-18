@@ -1,5 +1,7 @@
 # ChatGPT Desktop Notifier
 
+> このプロジェクトは、AIコーディングアシスタントのRoo-Clineをテストするために作成されました。
+
 ChatGPTの出力完了時にデスクトップ通知を送信するChrome拡張機能です。
 
 [English README](./README.md)
