@@ -69,7 +69,7 @@ import { playNotificationSound } from './utils/sound';
         characterData: true,
       });
     } else {
-      console.warn('❌ メッセージコンテナが見つかりませんでした');
+      console.warn('❌ Message container not found');
     }
   }
 
@@ -107,7 +107,7 @@ import { playNotificationSound } from './utils/sound';
       });
       return true;
     } else {
-      console.warn('❌ ボタンコンテナが見つかりませんでした');
+      console.warn('❌ Button container not found');
       return false;
     }
   }
@@ -161,7 +161,7 @@ import { playNotificationSound } from './utils/sound';
           clearInterval(retryInterval);
         } else if (retryCount >= 10) {
           clearInterval(retryInterval);
-          console.warn('⚠️ フォームの検出を中止します');
+          console.warn('⚠️ Form detection aborted');
         }
       }, 1000);
     }

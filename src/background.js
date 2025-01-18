@@ -5,7 +5,8 @@ function generateNotificationId() {
 
 // 通知を表示する関数
 function showNotification(text) {
-  const notificationId = generateNotificationId();
+  const notification
+  Id = generateNotificationId();
 
   try {
     chrome.notifications.create(notificationId, {
@@ -15,7 +16,7 @@ function showNotification(text) {
       message: text
     }, (createdId) => {
       if (chrome.runtime.lastError) {
-        console.error('❌ 通知の作成に失敗しました:', chrome.runtime.lastError);
+        console.error('❌ Failed to create notification:', chrome.runtime.lastError);
       }
     });
 
@@ -28,7 +29,7 @@ function showNotification(text) {
     });
 
   } catch (error) {
-    console.error('❌ 予期せぬエラーが発生しました:', error);
+    console.error('❌ An unexpected error occurred:', error);
   }
 }
 
