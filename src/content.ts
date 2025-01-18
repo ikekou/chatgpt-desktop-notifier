@@ -12,10 +12,21 @@ interface StorageChanges {
 }
 
 (function() {
+  // デバッグモード
+  const DEBUG = true;
+
+  // 状態管理
   let isGenerating = false;       // ChatGPTが応答生成中かどうか
   let lastResponseTime = 0;       // 最後に応答(メッセージ)を検知した時刻
   let messageObserver: MutationObserver | null = null;     // メッセージ用MutationObserver
   let buttonObserver: MutationObserver | null = null;      // 送信ボタン用MutationObserver
+
+  // デバッグ用ログ関数
+  function debugLog(category: string, message: string, data?: any): void {
+    if (!DEBUG) return;
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] [${category}] ${message}`, data || '');
+  }
 
   // 設定の初期値
   let settings: Settings = {
@@ -57,18 +68,34 @@ interface StorageChanges {
       messageObserver.disconnect();
     }
 
-    messageObserver = new MutationObserver(() => {
-      if (!isGenerating) return; // 応答生成中のみチェック
+    messageObserver = new MutationObserver((mutations) => {
+      debugLog('MessageObserver', 'Mutation detected', {
+        mutationsCount: mutations.length,
+        isGenerating
+      });
+
+      if (!isGenerating) {
+        debugLog('MessageObserver', 'Skipped: Not generating');
+        return;
+      }
 
       const messages = document.querySelectorAll('[data-message-author-role="assistant"]');
+      debugLog('MessageObserver', 'Assistant messages found', {
+        count: messages.length
+      });
+
       if (!messages.length) return;
 
       const lastMessage = messages[messages.length - 1];
       if (!lastMessage) return;
 
-      // メッセージテキストがまだ変化し続けている可能性があるため、
-      // ミューテーションがあるたびに時刻を更新
+      const prevResponseTime = lastResponseTime;
       lastResponseTime = Date.now();
+      
+      debugLog('MessageObserver', 'Message updated', {
+        messageText: lastMessage.textContent?.slice(0, 50),
+        timeSinceLastUpdate: lastResponseTime - prevResponseTime
+      });
     });
 
     // ChatGPTのメッセージリストに該当しそうな要素を探す
@@ -93,17 +120,27 @@ interface StorageChanges {
       buttonObserver.disconnect();
     }
 
-    buttonObserver = new MutationObserver(() => {
+    buttonObserver = new MutationObserver((mutations) => {
+      debugLog('ButtonObserver', 'Mutation detected', {
+        mutationsCount: mutations.length
+      });
+
       const stopButton = document.querySelector('button[data-testid="stop-button"]');
+      debugLog('ButtonObserver', 'Stop button state', {
+        exists: !!stopButton,
+        currentGeneratingState: isGenerating
+      });
 
       // ストップボタンの有無で生成中かどうかを判断
       if (stopButton && !isGenerating) {
         // 応答生成開始
+        debugLog('ButtonObserver', '🟢 Generation started');
         isGenerating = true;
         createMessageObserver(); // 応答を監視する
         lastResponseTime = Date.now();
       } else if (!stopButton && isGenerating) {
         // 生成が完了した
+        debugLog('ButtonObserver', '🔵 Generation potentially complete, scheduling final check');
         setTimeout(checkIfDone, 1000); // 最後のメッセージ更新を待つため少し待機
       }
     });
@@ -127,13 +164,29 @@ interface StorageChanges {
    * 応答完了したかどうかを最終判定する関数
    */
   function checkIfDone(): void {
-    if (!isGenerating) return;
+    debugLog('CheckIfDone', 'Starting completion check', {
+      isGenerating,
+      completionDelay: settings.completionDelay
+    });
+
+    if (!isGenerating) {
+      debugLog('CheckIfDone', 'Skipped: Not generating');
+      return;
+    }
 
     const now = Date.now();
     const timeSinceLastResponse = now - lastResponseTime;
 
+    debugLog('CheckIfDone', 'Time analysis', {
+      now,
+      lastResponseTime,
+      timeSinceLastResponse,
+      requiredDelay: settings.completionDelay * 1000
+    });
+
     // 設定された時間以上メッセージの更新がなければ完了とみなす
     if (timeSinceLastResponse > settings.completionDelay * 1000) {
+      debugLog('CheckIfDone', '🔴 Generation complete');
       // 完了
       isGenerating = false;
 
@@ -142,8 +195,14 @@ interface StorageChanges {
       const lastMessage = messages[messages.length - 1];
       const notificationText = lastMessage?.textContent?.slice(0, 100) || 'New response from ChatGPT';
 
+      debugLog('CheckIfDone', 'Preparing notification', {
+        messageCount: messages.length,
+        notificationText
+      });
+
       // デスクトップ通知
       if (settings.desktopEnabled) {
+        debugLog('CheckIfDone', 'Sending desktop notification');
         chrome.runtime.sendMessage({
           type: 'SHOW_NOTIFICATION',
           text: notificationText
@@ -152,9 +211,11 @@ interface StorageChanges {
 
       // 音声通知
       if (settings.soundEnabled) {
+        debugLog('CheckIfDone', 'Playing notification sound');
         playNotificationSound();
       }
     } else {
+      debugLog('CheckIfDone', '⏳ Still updating, scheduling next check');
       // まだ更新されているかもしれないので再度チェック
       setTimeout(checkIfDone, 2000);
     }
