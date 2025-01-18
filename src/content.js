@@ -10,13 +10,17 @@ import { playNotificationSound } from './utils/sound';
   let settings = {
     soundEnabled: true,
     desktopEnabled: true,
+    waitTime: 5, // 通知表示時間のデフォルト5秒
+    completionDelay: 2, // 応答完了判定の待ち時間のデフォルト2秒
   };
 
   // 設定を読み込む
-  chrome.storage.sync.get(['soundEnabled', 'desktopEnabled'], (result) => {
+  chrome.storage.sync.get(['soundEnabled', 'desktopEnabled', 'waitTime', 'completionDelay'], (result) => {
     settings = {
       soundEnabled: result.soundEnabled ?? true,
       desktopEnabled: result.desktopEnabled ?? true,
+      waitTime: result.waitTime ?? 5,
+      completionDelay: result.completionDelay ?? 2,
     };
     console.log('⚙️ 設定を読み込みました:', settings);
   });
@@ -30,6 +34,10 @@ import { playNotificationSound } from './utils/sound';
     if (changes.desktopEnabled) {
       settings.desktopEnabled = changes.desktopEnabled.newValue;
       console.log('⚙️ デスクトップ通知設定を更新:', settings.desktopEnabled);
+    }
+    if (changes.completionDelay) {
+      settings.completionDelay = changes.completionDelay.newValue;
+      console.log('⚙️ 応答完了判定の待ち時間を更新:', settings.completionDelay);
     }
   });
 
@@ -144,8 +152,8 @@ import { playNotificationSound } from './utils/sound';
       seconds: Math.round(timeSinceLastResponse / 1000)
     });
 
-    // 2秒以上メッセージの更新がなければ完了とみなす
-    if (timeSinceLastResponse > 1000) {
+    // 設定された時間以上メッセージの更新がなければ完了とみなす
+    if (timeSinceLastResponse > settings.completionDelay * 1000) {
       // 完了
       isGenerating = false;
       console.log(`✅ ${timeSinceLastResponse}ms経過した 応答完了を検知`);

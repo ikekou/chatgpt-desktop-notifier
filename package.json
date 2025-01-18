@@ -1,6 +1,6 @@
 {
   "name": "chatgpt-desktop-notifier",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "ChatGPTの出力完了時にデスクトップ通知を送信する拡張機能",
   "main": "index.js",
   "scripts": {
