@@ -12,6 +12,10 @@ ChatGPTの出力完了時にデスクトップ通知を送信するChrome拡張�
 - テスト機能
   - 通知音のテスト
   - デスクトップ通知のテスト
+ 
+## ポップアップ
+
+<img width="311" alt="スクリーンショット 2025-01-18 13 44 44" src="https://github.com/user-attachments/assets/ac4dcc2e-6b14-4264-92bf-c8dd7b09e4c8" />
 
 ## 開発環境のセットアップ
 
