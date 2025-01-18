@@ -85,3 +85,15 @@ input[type="checkbox"] {
 .status.show {
   opacity: 1;
 }
+
+.footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.version {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+}
