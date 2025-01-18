@@ -5,8 +5,7 @@ function generateNotificationId() {
 
 // 通知を表示する関数
 function showNotification(text) {
-  const notification
-  Id = generateNotificationId();
+  const notificationId = generateNotificationId();
 
   try {
     chrome.notifications.create(notificationId, {
