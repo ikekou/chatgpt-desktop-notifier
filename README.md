@@ -1,93 +1,95 @@
 # ChatGPT Desktop Notifier
 
-ChatGPTの出力完了時にデスクトップ通知を送信するChrome拡張機能です。
+A Chrome extension that sends desktop notifications when ChatGPT completes its response.
 
-## 機能
+[日本語のREADME](./README.ja.md)
 
-- ChatGPTの出力完了時にデスクトップ通知を送信
-- 通知音のON/OFF設定
-- デスクトップ通知のON/OFF設定
-- 通知の表示時間設定（1-60秒）
-- 応答完了判定の待ち時間設定（1-10秒）
-- テスト機能
-  - 通知音のテスト
-  - デスクトップ通知のテスト
- 
-## ポップアップ
+## Features
 
-<img width="311" alt="スクリーンショット 2025-01-18 13 44 44" src="https://github.com/user-attachments/assets/ac4dcc2e-6b14-4264-92bf-c8dd7b09e4c8" />
+- Desktop notifications when ChatGPT completes its response
+- Sound notification toggle
+- Desktop notification toggle
+- Configurable notification display duration (1-60 seconds)
+- Adjustable response completion detection delay (1-10 seconds)
+- Test functionality
+  - Sound notification test
+  - Desktop notification test
 
-## 開発環境のセットアップ
+## Popup Interface
 
-### 必要条件
+<img width="311" alt="Screenshot 2025-01-18 13 44 44" src="https://github.com/user-attachments/assets/ac4dcc2e-6b14-4264-92bf-c8dd7b09e4c8" />
 
-- Node.js (v14以上推奨)
-- npm (v6以上推奨)
+## Development Setup
 
-### インストール
+### Prerequisites
+
+- Node.js (v14 or higher recommended)
+- npm (v6 or higher recommended)
+
+### Installation
 
 ```bash
-# 依存パッケージのインストール
+# Install dependencies
 npm install
 ```
 
-### ビルド方法
+### Build Instructions
 
 ```bash
-# 本番用ビルド
+# Production build
 npm run build
 
-# 開発用ビルド（ファイル監視モード）
+# Development build with watch mode
 npm run dev
 
-# ビルドファイルのクリーン
+# Clean build files
 npm run clean
 ```
 
-### Chrome拡張機能としての読み込み方
+### Loading as Chrome Extension
 
-1. Chromeで `chrome://extensions` を開く
-2. 右上の「デベロッパーモード」をオンにする
-3. 「パッケージ化されていない拡張機能を読み込む」をクリック
-4. `dist` ディレクトリを選択
+1. Open `chrome://extensions` in Chrome
+2. Enable "Developer mode" in the top right
+3. Click "Load unpacked extension"
+4. Select the `dist` directory
 
-## プロジェクト構造
+## Project Structure
 
 ```
 .
 ├── src/
-│   ├── background.js    # バックグラウンドスクリプト
-│   ├── content.js       # コンテンツスクリプト
-│   ├── icons/          # アイコンファイル
+│   ├── background.js    # Background script
+│   ├── content.js       # Content script
+│   ├── icons/          # Icon files
 │   │   ├── icon.svg
 │   │   └── icon128.png
-│   ├── popup/          # ポップアップUI関連
+│   ├── popup/          # Popup UI related
 │   │   ├── popup.html
 │   │   ├── popup.css
 │   │   └── popup.js
-│   └── utils/          # ユーティリティ
-│       └── sound.js    # 通知音関連
-├── webpack-plugins/    # Webpackプラグイン
+│   └── utils/          # Utilities
+│       └── sound.js    # Sound notification related
+├── webpack-plugins/    # Webpack plugins
 │   └── version-incrementer.js
-├── manifest.json       # 拡張機能マニフェスト（Manifest V3）
-├── webpack.config.js   # Webpackの設定
-└── package.json       # プロジェクト設定
+├── manifest.json       # Extension manifest (Manifest V3)
+├── webpack.config.js   # Webpack configuration
+└── package.json       # Project configuration
 ```
 
-## 主な機能の説明
+## Feature Details
 
-### 通知設定
+### Notification Settings
 
-- **Sound Alert**: 応答完了時の通知音を有効/無効にします
-- **Desktop Alert**: デスクトップ通知を有効/無効にします
-- **Notification Duration**: デスクトップ通知の表示時間を設定します（1-60秒）
-- **Response Completion Delay**: ChatGPTの応答が完了したと判断するまでの待ち時間を設定します（1-10秒）
+- **Sound Alert**: Enable/disable sound notification when response is complete
+- **Desktop Alert**: Enable/disable desktop notifications
+- **Notification Duration**: Set how long desktop notifications are displayed (1-60 seconds)
+- **Response Completion Delay**: Set the delay for detecting ChatGPT's response completion (1-10 seconds)
 
-### テスト機能
+### Test Functions
 
-- **Test Sound**: 現在の設定で通知音をテスト再生します
-- **Test Notification**: 現在の設定でデスクトップ通知をテスト表示します
+- **Test Sound**: Play a test sound notification with current settings
+- **Test Notification**: Display a test desktop notification with current settings
 
-## ライセンス
+## License
 
 ISC
