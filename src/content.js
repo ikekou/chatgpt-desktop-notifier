@@ -30,9 +30,11 @@ function observeChatGPTResponse() {
     for (const mutation of mutations) {
       if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
         const lastNode = mutation.addedNodes[mutation.addedNodes.length - 1];
-        if (lastNode instanceof HTMLElement && 
-            lastNode.classList.contains('markdown') && 
-            !lastNode.classList.contains('notified')) {
+        if (lastNode instanceof HTMLElement &&
+            lastNode.classList.contains('markdown') &&
+            !lastNode.classList.contains('notified') &&
+            // 直前の要素がユーザーの入力であることを確認
+            lastNode.closest('.text-base')?.previousElementSibling?.querySelector('.dark\\:bg-gray-800')) {
           
           // 通知済みとしてマーク
           lastNode.classList.add('notified');

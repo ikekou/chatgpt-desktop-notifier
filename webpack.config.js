@@ -2,6 +2,9 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const sharp = require('sharp');
+const webpack = require('webpack');
+const VersionIncrementerPlugin = require('./webpack-plugins/version-incrementer');
+const packageJson = require('./package.json');
 
 // SVGをPNGに変換する関数
 async function convertSvgToPng(input, size) {
@@ -33,6 +36,10 @@ module.exports = {
     },
   },
   plugins: [
+    new VersionIncrementerPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.APP_VERSION': JSON.stringify(packageJson.version)
+    }),
     new HtmlWebpackPlugin({
       template: './src/popup/popup.html',
       filename: 'popup/popup.html',

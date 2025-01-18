@@ -6,6 +6,10 @@ const desktopEnabledCheckbox = document.getElementById('desktopEnabled');
 const testSoundButton = document.getElementById('testSound');
 const testNotificationButton = document.getElementById('testNotification');
 const statusElement = document.getElementById('status');
+const versionElement = document.getElementById('version');
+
+// バージョン番号を表示
+versionElement.textContent = process.env.APP_VERSION;
 
 // 設定を保存する関数
 function saveSettings() {
