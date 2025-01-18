@@ -65,22 +65,17 @@ function testSound() {
 
 // Test desktop notification
 function testNotification() {
-  console.log('🔔 Starting desktop notification test');
-  
   if (!desktopEnabledCheckbox.checked) {
-    console.log('⚠️ Desktop notifications are disabled');
     showStatus('⚠️ Desktop notifications are disabled');
     return;
   }
 
-  console.log('📤 Sending message to background.js');
   chrome.runtime.sendMessage(
     {
       type: 'SHOW_NOTIFICATION',
       text: 'This is a test notification. ChatGPT Desktop Notifier is working properly.'
     },
     (response) => {
-      console.log('📥 Response from background.js:', response);
       if (chrome.runtime.lastError) {
         console.error('❌ Error occurred:', chrome.runtime.lastError);
         showStatus('⚠️ Failed to send notification');
