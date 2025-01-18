@@ -1,94 +1,156 @@
 body {
-  width: 300px;
+  width: 280px;
   padding: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
+  background: #ffffff;
+  color: #2c3e50;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 12px;
 }
 
 h1 {
   font-size: 18px;
   margin: 0;
-  color: #333;
+  color: #2c3e50;
+  font-weight: 600;
+  letter-spacing: -0.5px;
 }
 
 h2 {
-  font-size: 16px;
+  font-size: 15px;
   margin: 0;
-  color: #333;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 .setting-item {
   display: flex;
   align-items: center;
   padding: 8px 0;
+  position: relative;
 }
 
+/* カスタムトグルスイッチ */
 label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  width: 100%;
   cursor: pointer;
   user-select: none;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+label::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+label::before {
+  content: '';
+  position: absolute;
+  right: 18px;
   width: 16px;
   height: 16px;
-  cursor: pointer;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+input[type="checkbox"]:checked + label::after {
+  background-color: #10A37F;
+}
+
+input[type="checkbox"]:checked + label::before {
+  right: 2px;
 }
 
 .divider {
   height: 1px;
-  background-color: #e0e0e0;
-  margin: 8px 0;
+  background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+  margin: 4px 0;
 }
 
 .test-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .test-button {
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
-  background-color: #10A37F;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #10A37F 0%, #0D8060 100%);
   color: white;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(16, 163, 127, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .test-button:hover {
-  background-color: #0E906E;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(16, 163, 127, 0.3);
+  background: linear-gradient(135deg, #0E906E 0%, #0B6A4F 100%);
 }
 
 .test-button:active {
-  background-color: #0D8060;
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(16, 163, 127, 0.2);
+  background: linear-gradient(135deg, #0D8060 0%, #0A5940 100%);
 }
 
 .status {
-  font-size: 14px;
-  color: #4CAF50;
-  height: 20px;
+  font-size: 13px;
+  color: #10A37F;
+  height: 16px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-weight: 500;
 }
 
 .status.show {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .version {
-  margin-top: 15px;
+  margin-top: 12px;
   text-align: center;
-  font-size: 12px;
-  color: #888;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
 }

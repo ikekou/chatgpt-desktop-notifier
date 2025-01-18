@@ -1,6 +1,6 @@
 import { playNotificationSound } from '../utils/sound';
 
-// DOM要素の取得
+// DOM elements
 const soundEnabledCheckbox = document.getElementById('soundEnabled');
 const desktopEnabledCheckbox = document.getElementById('desktopEnabled');
 const testSoundButton = document.getElementById('testSound');
@@ -8,10 +8,10 @@ const testNotificationButton = document.getElementById('testNotification');
 const statusElement = document.getElementById('status');
 const versionElement = document.getElementById('version');
 
-// バージョン番号を表示
+// Display version number
 versionElement.textContent = process.env.APP_VERSION;
 
-// 設定を保存する関数
+// Save settings
 function saveSettings() {
   const settings = {
     soundEnabled: soundEnabledCheckbox.checked,
@@ -19,66 +19,66 @@ function saveSettings() {
   };
 
   chrome.storage.sync.set(settings, () => {
-    showStatus('設定を保存しました');
+    showStatus('Settings saved');
   });
 }
 
-// ステータスメッセージを表示する関数
+// Show status message
 function showStatus(message) {
   statusElement.textContent = message;
   statusElement.classList.add('show');
 
-  // 2秒後にメッセージを非表示にする
+  // Hide message after 2 seconds
   setTimeout(() => {
     statusElement.classList.remove('show');
   }, 2000);
 }
 
-// 音声通知をテストする関数
+// Test sound notification
 function testSound() {
   if (!soundEnabledCheckbox.checked) {
-    showStatus('⚠️ 音声通知が無効になっています');
+    showStatus('⚠️ Sound alerts are disabled');
     return;
   }
   playNotificationSound();
-  showStatus('🔊 音声通知をテストしました');
+  showStatus('🔊 Sound alert tested');
 }
 
-// デスクトップ通知をテストする関数
+// Test desktop notification
 function testNotification() {
-  console.log('🔔 デスクトップ通知テストを開始します');
+  console.log('🔔 Starting desktop notification test');
   
   if (!desktopEnabledCheckbox.checked) {
-    console.log('⚠️ デスクトップ通知が無効になっています');
-    showStatus('⚠️ デスクトップ通知が無効になっています');
+    console.log('⚠️ Desktop notifications are disabled');
+    showStatus('⚠️ Desktop notifications are disabled');
     return;
   }
 
-  console.log('📤 background.jsにメッセージを送信します');
+  console.log('📤 Sending message to background.js');
   chrome.runtime.sendMessage(
     {
       type: 'SHOW_NOTIFICATION',
-      text: 'これはテスト通知です。ChatGPT Desktop Notifierは正常に動作しています。'
+      text: 'This is a test notification. ChatGPT Desktop Notifier is working properly.'
     },
     (response) => {
-      console.log('📥 background.jsからの応答:', response);
+      console.log('📥 Response from background.js:', response);
       if (chrome.runtime.lastError) {
-        console.error('❌ エラーが発生しました:', chrome.runtime.lastError);
-        showStatus('⚠️ 通知の送信に失敗しました');
+        console.error('❌ Error occurred:', chrome.runtime.lastError);
+        showStatus('⚠️ Failed to send notification');
       }
     }
   );
   
-  showStatus('💬 デスクトップ通知をテストしました');
+  showStatus('💬 Desktop notification tested');
 }
 
-// 保存された設定を読み込む
+// Load saved settings
 chrome.storage.sync.get(['soundEnabled', 'desktopEnabled'], (result) => {
   soundEnabledCheckbox.checked = result.soundEnabled ?? true;
   desktopEnabledCheckbox.checked = result.desktopEnabled ?? true;
 });
 
-// イベントリスナーの設定
+// Event listeners
 soundEnabledCheckbox.addEventListener('change', saveSettings);
 desktopEnabledCheckbox.addEventListener('change', saveSettings);
 testSoundButton.addEventListener('click', testSound);

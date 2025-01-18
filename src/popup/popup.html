@@ -7,31 +7,33 @@
 </head>
 <body>
   <div class="container">
-    <h1>通知設定</h1>
+    <h1>Notification Settings</h1>
     <div class="setting-item">
-      <label>
-        <input type="checkbox" id="soundEnabled" checked>
-        音声通知
+      <input type="checkbox" id="soundEnabled" checked>
+      <label for="soundEnabled">
+        Sound Alert
       </label>
     </div>
     <div class="setting-item">
-      <label>
-        <input type="checkbox" id="desktopEnabled" checked>
-        デスクトップ通知
+      <input type="checkbox" id="desktopEnabled" checked>
+      <label for="desktopEnabled">
+        Desktop Alert
       </label>
     </div>
     <div class="divider"></div>
     <div class="test-buttons">
-      <h2>テスト</h2>
+      <h2>Test</h2>
       <button id="testSound" class="test-button">
-        🔊 音声通知テスト
+        <span>🔊</span>
+        <span>Test Sound</span>
       </button>
       <button id="testNotification" class="test-button">
-        💬 デスクトップ通知テスト
+        <span>💬</span>
+        <span>Test Notification</span>
       </button>
     </div>
     <div class="status" id="status"></div>
-    <div class="version">バージョン: <span id="version"></span></div>
+    <div class="version">Version: <span id="version"></span></div>
   </div>
   <script src="popup.js"></script>
 </body>
