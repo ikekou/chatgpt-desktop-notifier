@@ -24,12 +24,17 @@ function showNotification(text) {
       }
     });
 
-    // 5秒後に通知を自動的に閉じる
-    setTimeout(() => {
-      chrome.notifications.clear(notificationId, (wasCleared) => {
-        console.log(`🧹 通知のクリア ${wasCleared ? '成功' : '失敗'}:`, notificationId);
-      });
-    }, 5000);
+    // 設定された待ち時間後に通知を自動的に閉じる
+    chrome.storage.sync.get(['waitTime'], (result) => {
+      const waitTime = (result.waitTime ?? 5) * 1000; // ミリ秒に変換
+      console.log(`⏱ 通知を ${waitTime/1000} 秒後に閉じます`);
+      
+      setTimeout(() => {
+        chrome.notifications.clear(notificationId, (wasCleared) => {
+          console.log(`🧹 通知のクリア ${wasCleared ? '成功' : '失敗'}:`, notificationId);
+        });
+      }, waitTime);
+    });
 
   } catch (error) {
     console.error('❌ 予期せぬエラーが発生しました:', error);
